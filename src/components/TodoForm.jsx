@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const TodoForm = ({ todos, setTodos }) => {
+export const TodoForm = ({ setTodos }) => {
   const [title, setTitle] = useState("");
 
   const handleAdd = async () => {
