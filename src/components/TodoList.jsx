@@ -1,33 +1,14 @@
 import React from "react";
 import { TodoItem } from "./TodoItem";
 
-export const TodoList = ({ todos, onToggle, onDelete, onEdit }) => {
-  const completedTodos = todos.filter((todo) => todo.completed);
-  const notCompletedTodos = todos.filter((todo) => !todo.completed);
-
+export const TodoList = ({ title, todos, onToggle, onDelete, onEdit }) => {
   return (
     <div>
-      {notCompletedTodos.length > 0 && (
+      {todos.length > 0 && (
         <div>
-          <h2>할일 목록</h2>
+          <h2>{title}</h2>
           <ul>
-            {notCompletedTodos.map((todo) => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                onToggle={onToggle}
-                onDelete={onDelete}
-                onEdit={onEdit}
-              />
-            ))}
-          </ul>
-        </div>
-      )}
-      {completedTodos.length > 0 && (
-        <div>
-          <h2>완료 목록</h2>
-          <ul>
-            {completedTodos.map((todo) => (
+            {todos.map((todo) => (
               <TodoItem
                 key={todo.id}
                 todo={todo}

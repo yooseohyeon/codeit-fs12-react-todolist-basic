@@ -18,8 +18,7 @@ function App() {
       });
       const data = await res.json();
 
-      // 최신순 정렬
-      setTodos(sortByDate(data));
+      setTodos(data);
     };
     getTodos();
   }, []);
@@ -30,8 +29,6 @@ function App() {
         ? new Date(b.createdAt) - new Date(a.createdAt)
         : new Date(a.createdAt) - new Date(b.createdAt);
     });
-
-  const sortedTodos = sortByDate(todos);
 
   const handleAdd = async (title) => {
     const newTodo = {
@@ -91,13 +88,24 @@ function App() {
     setTodos((prev) => prev.map((todo) => (todo.id === id ? data : todo)));
   };
 
+  const completedTodos = sortByDate(todos.filter((todo) => todo.completed));
+  const notCompletedTodos = sortByDate(todos.filter((todo) => !todo.completed));
+
   return (
     <>
       <h1>Todo List</h1>
       <TodoForm onAdd={handleAdd} />
       <SortButtons sortBy={sortBy} setSortBy={setSortBy} />
       <TodoList
-        todos={sortedTodos}
+        title={"할 일 목록"}
+        todos={notCompletedTodos}
+        onToggle={handleToggle}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+      />
+      <TodoList
+        title={"완료 목록"}
+        todos={completedTodos}
         onToggle={handleToggle}
         onDelete={handleDelete}
         onEdit={handleEdit}
