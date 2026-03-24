@@ -6,6 +6,7 @@ import { SortButtons } from "./components/SortButtons";
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [sortBy, setSortBy] = useState("latest");
 
   useEffect(() => {
     const getTodos = async () => {
@@ -18,12 +19,19 @@ function App() {
       const data = await res.json();
 
       // 최신순 정렬
-      setTodos(
-        [...data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
-      );
+      setTodos(sortByDate(data));
     };
     getTodos();
   }, []);
+
+  const sortByDate = (todos) =>
+    [...todos].sort((a, b) => {
+      return sortBy === "latest"
+        ? new Date(b.createdAt) - new Date(a.createdAt)
+        : new Date(a.createdAt) - new Date(b.createdAt);
+    });
+
+  const sortedTodos = sortByDate(todos);
 
   const handleAdd = async (title) => {
     const newTodo = {
@@ -89,9 +97,9 @@ function App() {
     <>
       <h1>Todo List</h1>
       <TodoForm onAdd={handleAdd} />
-      <SortButtons setTodos={setTodos} />
+      <SortButtons sortBy={sortBy} setSortBy={setSortBy} />
       <TodoList
-        todos={todos}
+        todos={sortedTodos}
         onToggle={handleToggle}
         onDelete={handleDelete}
         onEdit={handleEdit}
