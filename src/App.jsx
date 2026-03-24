@@ -11,13 +11,12 @@ function App() {
     const getTodos = async () => {
       const res = await fetch("http://localhost:4000/todos", {
         headers: {
-          Accept: "application/json",
+          "Content-Type": "application/json",
         },
         method: "GET",
       });
       const data = await res.json();
 
-      console.log(data);
       setTodos(data);
     };
     getTodos();
