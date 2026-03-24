@@ -27,7 +27,7 @@ function App() {
       <h1>Todo List</h1>
       <TodoForm setTodos={setTodos} />
       <SortButtons setTodos={setTodos} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} setTodos={setTodos} />
     </>
   );
 }
