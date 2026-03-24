@@ -19,13 +19,28 @@ export const TodoList = ({ todos, setTodos }) => {
     setTodos((prev) => prev.map((todo) => (todo.id === id ? data : todo)));
   };
 
+  const handleDelete = async (id) => {
+    const res = await fetch(`http://localhost:4000/todos/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    }
+  };
+
   return (
     <ul>
       {notCompletedTodos.length > 0 && (
         <div>
           <h2>할일 목록</h2>
           {notCompletedTodos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} handleToggle={handleToggle} />
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              handleToggle={handleToggle}
+              handleDelete={handleDelete}
+            />
           ))}
         </div>
       )}
@@ -33,7 +48,12 @@ export const TodoList = ({ todos, setTodos }) => {
         <div>
           <h2>완료 목록</h2>
           {completedTodos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} handleToggle={handleToggle} />
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              handleToggle={handleToggle}
+              handleDelete={handleDelete}
+            />
           ))}
         </div>
       )}

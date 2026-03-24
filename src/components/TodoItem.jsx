@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const TodoItem = ({ todo, handleToggle }) => {
+export const TodoItem = ({ todo, handleToggle, handleDelete }) => {
   const formattedDate = new Intl.DateTimeFormat("ko-KR", {
     year: "numeric",
     month: "long",
@@ -19,6 +19,9 @@ export const TodoItem = ({ todo, handleToggle }) => {
         onClick={() => handleToggle(todo.id, todo.completed)}
       >
         {todo.completed ? "완료" : "취소"}
+      </button>
+      <button type="button" onClick={() => handleDelete(todo.id)}>
+        삭제
       </button>
     </li>
   );
