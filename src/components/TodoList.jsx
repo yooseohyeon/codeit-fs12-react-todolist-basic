@@ -29,6 +29,22 @@ export const TodoList = ({ todos, setTodos }) => {
     }
   };
 
+  const handleUpdate = async (id, title) => {
+    if (!title.trim()) return;
+
+    const res = await fetch(`http://localhost:4000/todos/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: title }),
+    });
+
+    const data = await res.json();
+
+    setTodos((prev) => prev.map((todo) => (todo.id === id ? data : todo)));
+  };
+
   return (
     <ul>
       {notCompletedTodos.length > 0 && (
@@ -53,6 +69,7 @@ export const TodoList = ({ todos, setTodos }) => {
               todo={todo}
               handleToggle={handleToggle}
               handleDelete={handleDelete}
+              handleUpdate={handleUpdate}
             />
           ))}
         </div>
