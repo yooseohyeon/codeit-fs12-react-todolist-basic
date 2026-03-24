@@ -3,25 +3,26 @@ import React, { useState } from "react";
 export const TodoForm = ({ onAdd }) => {
   const [title, setTitle] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (!title.trim()) return;
     onAdd(title.trim());
     setTitle("");
   };
 
   return (
-    <div>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <input
         type="text"
+        id="todo-input"
+        name="todo"
         placeholder="할일을 입력해주세요"
         value={title}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
       />
-      <button type="button" onClick={handleSubmit}>
-        제출
-      </button>
-    </div>
+      <button type="submit">제출</button>
+    </form>
   );
 };

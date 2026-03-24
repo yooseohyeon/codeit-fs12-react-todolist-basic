@@ -78,8 +78,6 @@ function App() {
   };
 
   const handleEdit = async (id, title) => {
-    if (!title.trim()) return;
-
     const res = await fetch(`http://localhost:4000/todos/${id}`, {
       method: "PATCH",
       headers: {

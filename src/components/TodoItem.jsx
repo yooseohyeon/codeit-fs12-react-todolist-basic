@@ -13,6 +13,13 @@ export const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
     hour12: true,
   }).format(new Date(todo.createdAt));
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!newTitle.trim()) return;
+    onEdit(todo.id, newTitle);
+    setIsEditing(false);
+  };
+
   return (
     <li>
       {!isEditing ? (
@@ -29,22 +36,16 @@ export const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
           </button>
         </div>
       ) : (
-        <div>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <input
             type="text"
+            id={`edit-input-${todo.id}`}
+            name="edit"
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
           />
-          <button
-            type="button"
-            onClick={() => {
-              onEdit(todo.id, newTitle);
-              setIsEditing(false);
-            }}
-          >
-            저장
-          </button>
-        </div>
+          <button type="submit">저장</button>
+        </form>
       )}
 
       <span>{formattedDate}</span>
