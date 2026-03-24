@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 
-export const TodoItem = ({
-  todo,
-  handleToggle,
-  handleDelete,
-  handleUpdate,
-}) => {
-  const [isUpdate, setIsUpdate] = useState(false);
+export const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
+  const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState("");
 
   const formattedDate = new Intl.DateTimeFormat("ko-KR", {
@@ -20,13 +15,13 @@ export const TodoItem = ({
 
   return (
     <li>
-      {!isUpdate ? (
+      {!isEditing ? (
         <div>
           <strong>{todo.title}</strong>
           <button
             type="button"
             onClick={() => {
-              setIsUpdate(true);
+              setIsEditing(true);
               setNewTitle(todo.title);
             }}
           >
@@ -43,8 +38,8 @@ export const TodoItem = ({
           <button
             type="button"
             onClick={() => {
-              handleUpdate(todo.id, newTitle);
-              setIsUpdate(false);
+              onEdit(todo.id, newTitle);
+              setIsEditing(false);
             }}
           >
             저장
@@ -53,13 +48,10 @@ export const TodoItem = ({
       )}
 
       <span>{formattedDate}</span>
-      <button
-        type="button"
-        onClick={() => handleToggle(todo.id, todo.completed)}
-      >
+      <button type="button" onClick={() => onToggle(todo.id, todo.completed)}>
         {todo.completed ? "취소" : "완료"}
       </button>
-      <button type="button" onClick={() => handleDelete(todo.id)}>
+      <button type="button" onClick={() => onDelete(todo.id)}>
         삭제
       </button>
     </li>

@@ -25,12 +25,77 @@ function App() {
     getTodos();
   }, []);
 
+  const handleAdd = async (title) => {
+    const newTodo = {
+      title: title,
+      completed: false,
+      createdAt: new Date().toISOString(),
+    };
+
+    const res = await fetch("http://localhost:4000/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTodo),
+    });
+
+    const data = await res.json();
+
+    setTodos((prev) => [...prev, data]);
+  };
+
+  const handleToggle = async (id, completed) => {
+    const res = await fetch(`http://localhost:4000/todos/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ completed: !completed }),
+    });
+
+    const data = await res.json();
+
+    setTodos((prev) => prev.map((todo) => (todo.id === id ? data : todo)));
+  };
+
+  const handleDelete = async (id) => {
+    const res = await fetch(`http://localhost:4000/todos/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    }
+  };
+
+  const handleEdit = async (id, title) => {
+    if (!title.trim()) return;
+
+    const res = await fetch(`http://localhost:4000/todos/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: title }),
+    });
+
+    const data = await res.json();
+
+    setTodos((prev) => prev.map((todo) => (todo.id === id ? data : todo)));
+  };
+
   return (
     <>
       <h1>Todo List</h1>
-      <TodoForm setTodos={setTodos} />
+      <TodoForm onAdd={handleAdd} />
       <SortButtons setTodos={setTodos} />
-      <TodoList todos={todos} setTodos={setTodos} />
+      <TodoList
+        todos={todos}
+        onToggle={handleToggle}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+      />
     </>
   );
 }
