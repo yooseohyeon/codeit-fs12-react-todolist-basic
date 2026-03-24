@@ -20,7 +20,7 @@ export const SortButtons = ({ setTodos }) => {
   return (
     <select value={sortBy} onChange={(e) => handelSortChange(e.target.value)}>
       <option value="latest">최신순</option>
-      <option value="oldest">오래된순</option>
+      <option value="oldest">등록순</option>
     </select>
   );
 };

@@ -17,7 +17,10 @@ function App() {
       });
       const data = await res.json();
 
-      setTodos(data);
+      // 최신순 정렬
+      setTodos(
+        [...data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+      );
     };
     getTodos();
   }, []);
