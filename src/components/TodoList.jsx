@@ -6,35 +6,39 @@ export const TodoList = ({ todos, onToggle, onDelete, onEdit }) => {
   const notCompletedTodos = todos.filter((todo) => !todo.completed);
 
   return (
-    <ul>
+    <div>
       {notCompletedTodos.length > 0 && (
         <div>
           <h2>할일 목록</h2>
-          {notCompletedTodos.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onToggle={onToggle}
-              onDelete={onDelete}
-              onEdit={onEdit}
-            />
-          ))}
+          <ul>
+            {notCompletedTodos.map((todo) => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onToggle={onToggle}
+                onDelete={onDelete}
+                onEdit={onEdit}
+              />
+            ))}
+          </ul>
         </div>
       )}
       {completedTodos.length > 0 && (
         <div>
           <h2>완료 목록</h2>
-          {completedTodos.map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onToggle={onToggle}
-              onDelete={onDelete}
-              onEdit={onEdit}
-            />
-          ))}
+          <ul>
+            {completedTodos.map((todo) => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onToggle={onToggle}
+                onDelete={onDelete}
+                onEdit={onEdit}
+              />
+            ))}
+          </ul>
         </div>
       )}
-    </ul>
+    </div>
   );
 };
